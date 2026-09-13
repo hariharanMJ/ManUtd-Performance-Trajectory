@@ -1,0 +1,42 @@
+[
+  {
+    "season": "2010-11",
+    "position": 1,
+    "manager": "Ferguson"
+  },
+  {
+    "season": "2011-12",
+    "position": 2,
+    "manager": "Ferguson"
+  },
+  {
+    "season": "2012-13",
+    "position": 1,
+    "manager": "Ferguson"
+  },
+  {
+    "season": "2013-14",
+    "position": 7,
+    "manager": "Moyes"
+  },
+  {
+    "season": "2014-15",
+    "position": 4,
+    "manager": "Van Gaal"
+  },
+  {
+    "season": "2015-16",
+    "position": 5,
+    "manager": "Van Gaal"
+  },
+  {
+    "season": "2016-17",
+    "position": 6,
+    "manager": "Mourinho"
+  },
+  {
+    "season": "2017-18",
+    "position": 2,
+    "manager": "Mourinho"
+  }
+]
