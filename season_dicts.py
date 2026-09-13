@@ -17,13 +17,12 @@ outside_top4 = 0
 for row in season_data:
     if row["position"] <= 4:
         top4_finish += 1
-        print(row["season"],":", row["position"])
+        
 
     else:
         outside_top4 += 1
-        print(row["season"],":", row["position"])
-print("Top 4 Finish: ",top4_finish)
-print("Outside of top 4: ", outside_top4)
+        
+
 
 def count_by_managers(season_data):
     manager_counts = {}
@@ -32,10 +31,10 @@ def count_by_managers(season_data):
         manager_counts[manager] = manager_counts.get(manager, 0) + 1
     return manager_counts
     
-results = count_by_managers(season_data)
+'''results = count_by_managers(season_data)
 for manager, count in results.items():
         label = "season" if count == 1 else "seasons"
-        print(f"{manager} : {count} {label}")
+        print(f"{manager} : {count} {label}")'''
 
 #Refactor count_by_managers function.
 def count_by_field(season_data, field_name):
@@ -53,10 +52,9 @@ def print_counts(results, label):
 
 
 manager_results = count_by_field(season_data, "Manager")
-print_counts(manager_results, "Manager")
 
 position_results = count_by_field(season_data, "position")
-print_counts(position_results, "position")
+
 
 #Average Position Calculation
 def average_position(season_data):
@@ -67,7 +65,7 @@ def average_position(season_data):
          season_counter = season_counter + 1 
     avg = position_counter / season_counter
     return avg
-print(average_position(season_data))
+
 
 #top tier seasons
 def top_tier_seasons(season_data, threshold = 4):
@@ -77,5 +75,16 @@ def top_tier_seasons(season_data, threshold = 4):
             top_seasons.append(row["season"])
     return top_seasons     
      
-print(top_tier_seasons(season_data))
-print(top_tier_seasons(season_data,6))
+
+
+#importing functions elsewhere without spamming output.
+if __name__ == "__main__":
+    print(row["season"],":", row["position"])
+    print(row["season"],":", row["position"])
+    print("Top 4 Finish: ",top4_finish)
+    print("Outside of top 4: ", outside_top4)
+    print_counts(manager_results, "Manager")
+    print_counts(position_results, "position")
+    print(average_position(season_data))
+    print(top_tier_seasons(season_data))
+    print(top_tier_seasons(season_data,6))
