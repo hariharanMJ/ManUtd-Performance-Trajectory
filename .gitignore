@@ -5,3 +5,4 @@ __pycache__/
 .vscode/
 raw/*.csv
 *.log
+manutd.db
