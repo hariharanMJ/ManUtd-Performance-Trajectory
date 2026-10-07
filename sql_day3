@@ -1,0 +1,66 @@
+'''INNER JOIN lets the user to read the matching records from both table whereas 
+Left Join returns all the data from the left side table and only the matching rows 
+from Right table. Since the 2010/11 and 2014/15 seasons have no data in top_scorers 
+table, the INNER JOIN neglected them but the LEFT JOIN passed the null values to those
+season and returned the data.
+'''
+from sql_basics import conn, cursor
+import csv
+
+cursor.execute("""CREATE TABLE IF NOT EXISTS top_scorers(
+    season TEXT,
+    player TEXT,
+    goals INTEGER
+    )
+    """)
+
+conn.commit()
+
+with open("top_scorers_utd.csv", "r") as file:
+    reader = csv.DictReader(file)
+    top_utd_scorers = list(reader)
+
+for row in top_utd_scorers:
+    cursor.execute(""" 
+                    SELECT COUNT(*) FROM top_scorers where season = ?
+                    """,(row["season"],))
+    already_exists = cursor.fetchone()[0]
+
+    if already_exists == 0:
+        cursor.execute("INSERT INTO top_scorers(season, player, goals) VALUES(?, ?, ?)",
+        (row["season"],row["player"],int(row["goals"]))
+        )
+
+conn.commit()
+    
+#cursor.execute("DELETE FROM top_scorers")
+#conn.commit()
+
+if __name__ == "__main__":
+    cursor.execute("SELECT * FROM top_scorers")
+    for row in cursor.fetchall():
+        print(row)
+    cursor.execute("""
+            SELECT * FROM seasons s
+            INNER JOIN top_scorers ts
+            ON s.season = ts.season
+        """)
+    for row in cursor.fetchall():
+            print(row)
+
+    cursor.execute("""
+                SELECT * FROM seasons s
+                LEFT JOIN top_scorers ts
+                ON s.season = ts.season
+            """)
+    for row in cursor.fetchall():
+        print(row)
+    
+    cursor.execute("""
+                    SELECT * FROM seasons s
+                    INNER JOIN top_scorers ts
+                    ON s.season = ts.season
+                    WHERE position <= 4
+                """)
+    for row in cursor.fetchall():
+        print(row)
