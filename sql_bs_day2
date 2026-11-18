@@ -1,4 +1,4 @@
-from sql_basics import conn, cursor
+from sql_basics import cursor
 
 cursor.execute("SELECT manager, COUNT(*) FROM seasons GROUP BY manager")
 for managers in cursor.fetchall():
@@ -8,13 +8,16 @@ cursor.execute("SELECT manager, AVG(position) FROM seasons GROUP BY manager")
 for managers in cursor.fetchall():
     print(managers)
 
-cursor.execute("SELECT manager, COUNT(*) FROM seasons WHERE COUNT(*)>=2 GROUP BY manager")
+'''cursor.execute("SELECT manager, COUNT(*) FROM seasons WHERE COUNT(*)>=2 GROUP BY manager")
 for managers in cursor.fetchall():
-    print(managers)
+    print(managers)'''
 
 cursor.execute("SELECT manager, COUNT(*) FROM seasons GROUP BY manager HAVING COUNT(*)>=2")
 for managers in cursor.fetchall():
     print(managers)
 
+cursor.execute("SELECT season, position FROM seasons WHERE position < AVG(position);")
+for avg_pos in cursor.fetchall():
+    print(avg_pos)
 #WHERE condition filters the rows first and then perform aggregation on the filtered columns.
 #HAVING filters the row which have aggregated already and it comes after the GROUP BY clause.

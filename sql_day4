@@ -1,0 +1,70 @@
+from sql_basics import conn, cursor
+
+cursor.execute(""" SELECT season, position 
+                FROM seasons
+                WHERE position < (
+                SELECT AVG(position) FROM seasons)
+             """)
+
+for season_row in cursor.fetchall():
+    print(season_row)
+
+cursor.execute("SELECT AVG(position) FROM seasons")
+print(cursor.fetchone()[0])
+   
+
+#CTE
+cursor.execute(""" with season_count as (
+                SELECT  manager, COUNT(*) as total_seasons
+                FROM seasons
+                GROUP BY manager
+                )
+                SELECT * FROM season_count WHERE total_seasons >= 2
+            """)
+
+for season_cnt in cursor.fetchall():
+    print(season_cnt)
+
+
+cursor.execute("""SELECT manager, pos
+FROM (
+    SELECT manager, AVG(position) as pos
+    FROM seasons
+    GROUP BY manager
+) AS manager_stats
+WHERE pos < (SELECT AVG(position) FROM seasons);""")
+for manager_avg_cnt in cursor.fetchall():
+    print(manager_avg_cnt)
+
+cursor.execute(""" WITH manager_avg as (
+                SELECT manager, AVG(position) as pos
+                FROM seasons
+                GROUP BY manager
+                ),
+                position_avg as (
+                SELECT AVG(position) as avg_pos FROM seasons
+                )
+                SELECT manager, pos from manager_avg
+                CROSS JOIN position_avg
+                WHERE pos < avg_pos
+
+""")
+for manager_avg_cnt in cursor.fetchall():
+    print(manager_avg_cnt)
+
+
+cursor.execute(""" WITH high_goal_scorers as (
+                SELECT s.season, s.position, ts.player, ts.goals
+                FROM seasons s
+                INNER JOIN
+                top_scorers ts
+                ON s.season = ts.season
+                WHERE ts.goals >= 15 
+                )
+                SELECT  *
+                FROM high_goal_scorers
+                where position <= 4
+
+""")
+for higher_goal_row in cursor.fetchall():
+    print(higher_goal_row)
